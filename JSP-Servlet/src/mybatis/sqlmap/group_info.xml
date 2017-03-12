@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="groupInfo">
+	<resultMap type="GroupInfoDTO" id="giResult">
+	    <result column="host_code" property="hostCode"/>
+	    <result column="group_code" property="groupCode"/>
+	    <result column="group_name" property="groupName"/> 
+	    <result column="member_id" property="memberId"/>
+	    <result column="member_name" property="memberName"/>
+	</resultMap>
+	
+	 
+      <select id="selectGroupInfo" resultMap="giResult">    
+          select * from group_info_view<where>host_code = #{hostCode}</where> ORDER BY group_code  
+      </select> 
+      <select id="selectAll" resultMap="giResult">
+          select * from group_info_view order by group_code
+      </select>
+     
+</mapper>
+

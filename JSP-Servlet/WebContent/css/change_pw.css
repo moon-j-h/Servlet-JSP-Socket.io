@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+.wrapper{
+	width:50%;
+	margin:0 auto;
+}
+#change-pw{
+	float:right;
+}

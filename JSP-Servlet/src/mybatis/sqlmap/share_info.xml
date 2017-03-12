@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="shareInfo">
+	<resultMap type="ShareInfoDTO" id="siResult">
+	    <result column="joiner_code" property="joinerCode"/>
+	    <result column="host_id" property="hostId"/>
+	    <result column="host_name" property="hostName"/> 
+	    <result column="file_code" property="fileCode"/>
+	    <result column="share_date" property="shareDate"/>
+	</resultMap>
+	
+	 
+      <select id="selectShareInfo" resultMap="siResult">    
+          select * from share_info_view<where>joiner_code = #{joinerCode}</where>  
+      </select> 
+      <select id="selectAll" resultMap="siResult">
+          select * from share_info_view
+      </select>
+     
+</mapper>
+

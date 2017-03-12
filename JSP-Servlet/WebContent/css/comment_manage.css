@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+h3{
+	margin-left:25px;
+}
+#wrapper{
+	width:100%;
+	margin:0 auto;
+	
+}
+.share-list{
+	width:80%;
+	margin:0 auto;
+}
+
+.comment-list{
+	float:right;
+	width:40%;
+	height:450px;
+	margin-right:20px;
+	font-size: 12px;
+	overflow-y: auto;
+	overflow-x: hidden; 
+}
+#page-view{
+	float:left;
+	width:55%;
+	margin-left:10px;
+}
+.recomment{
+	color:#A9A9A9;
+}
+.recomment:hover{
+	cursor:pointer;
+	text-decoration: underline;
+}
+.recomment-input{
+	margin-top: 5px;
+	float: right;
+	font-size: 8px;
+}

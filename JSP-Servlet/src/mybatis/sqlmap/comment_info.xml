@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="commentInfo">
+	<resultMap type="CommentInfoDTO" id="ciResult">
+	    <result column="comment_code" property="commentCode"/>
+	    <result column="file_code" property="fileCode"/>
+	    <result column="slide_page_number" property="slidePageNumber"/> 
+	    <result column="writer_id" property="writerId"/>
+	    <result column="writer_name" property="writerName"/>
+	    <result column="write_date" property="writeDate"/>
+	    <result column="comment_content" property="commentContent"/>
+	    <result column="super_comment_code" property="superCommentCode"/>
+	</resultMap>
+	
+	<sql id="commentColumns">comment_code, file_code, slide_page_number, writer_id, writer_name, comment_content, TO_CHAR(write_date, 'YYYY/MM/DD') write_date, super_comment_code</sql>
+	 
+      <select id="selectCommentInfo" resultMap="ciResult">    
+          select <include refid="commentColumns"/> from comment_info_view<where>file_code = #{fileCode}</where> order by comment_code
+      </select>
+      <select id="selectCommentInfoByPageNumber" parameterType="hashMap" resultMap="ciResult">
+          select <include refid="commentColumns"/> from comment_info_view<where>file_code = #{fileCode} AND slide_page_number = #{slidePageNumber}</where> order by comment_code
+      </select> 
+      <select id="selectAll" resultMap="ciResult">
+          select <include refid="commentColumns"/> from comment_info_view order by comment_code
+      </select>
+     
+</mapper>
+

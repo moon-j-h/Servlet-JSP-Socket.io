@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+.wrapper{
+	width:40%;
+	margin:0 auto;
+}
+#re-btn{
+	float:right;
+	width:50%;
+}

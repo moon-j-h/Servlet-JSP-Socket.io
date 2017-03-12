@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="invite">
+	<resultMap type="InviteDTO" id="inviteResult">
+	    <id column="inviteCode" property="inviteCode"/><!-- id태그는 pk임 -->
+	    <result column="file_code" property="fileCode"/>
+	    <result column="guest_code" property="guestCode"/>
+	    <result column="invite_link" property="inviteLink"/>
+	    <result column="invite_state" property="inviteState"/>
+	</resultMap>
+		
+	<insert id="insertInvite" parameterType="inviteDTO">
+		INSERT INTO invite_tb(invite_code, file_code, guest_code, invite_link<if test="inviteState != null">, invite_state</if>) 
+		VALUES(#{inviteCode}, #{fileCode}, #{guestCode}, #{inviteLink}<if test="inviteState != null">, #{inviteState}</if>)
+	</insert>
+	
+	<update id="updateInviteStateToInactive">
+	    UPDATE invite_tb
+	    <set>
+			invite_state = 'INACTIVE'
+	    </set>
+	    <where>
+			invite_code = #{inviteCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="inviteResult">
+	    SELECT * FROM invite_tb
+	</select>
+	<select id="selectActiveInvites" resultMap="inviteResult">
+	    SELECT * FROM invite_tb 
+	    <where>
+	        invite_state = 'ACTIVE'
+	    </where>
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT invite_code FROM invite_tb
+	</select>
+	<select id="selectInvite" resultMap="inviteResult">
+	    SELECT * FROM invite_tb
+	    <where>
+			invite_code = #{inviteCode}
+	    </where>
+	</select>
+    <select id="selectInvites" resultMap="inviteResult">
+        SELECT * FROM invite_tb
+        <where>
+			guest_code = #{guestCode}
+        </where>
+    </select>
+    <select id="selectInviteCode" parameterType="hashMap" resultType="int">
+        SELECT invite_code FROM invite_tb
+        <where>
+			file_code = #{fileCode}
+			AND guest_code = #{guestCode}
+        </where>
+    </select>  
+    
+    <delete id="deleteInvite">
+        DELETE FROM invite_tb
+        <where>
+			invite_code = #{inviteCode}
+        </where>
+    </delete>
+    <delete id="deleteInvites1">
+        DELETE FROM invite_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </delete>
+    <delete id="deleteInvites2">
+        DELETE FROM group_member_tb
+        <where>
+            guest_code = #{guestCode}
+        </where>
+    </delete>
+    <delete id="deleteInactive">
+        DELETE FROM group_member_tb
+        <where>
+            guest_code = #{guestCode}
+            AND invite_state = 'INACTIVE'
+        </where>
+    </delete>
+</mapper>
+

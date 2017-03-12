@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+           "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="dto.tb.MemberDTO" alias="memberDTO" />
+		<typeAlias type="dto.tb.GroupDTO" alias="groupDTO"/>
+		<typeAlias type="dto.tb.GroupMemberDTO" alias="groupMemberDTO"/>
+		<typeAlias type="dto.tb.FileDTO" alias="fileDTO"/>
+		<typeAlias type="dto.tb.InviteDTO" alias="inviteDTO"/>
+		<typeAlias type="dto.tb.ShareJoinerDTO" alias="shareJoinerDTO"/>
+		<typeAlias type="dto.tb.CommentDTO" alias="commentDTO"/>
+		<typeAlias type="dto.view.GroupInfoDTO" alias="groupInfoDTO"/>
+		<typeAlias type="dto.view.InviteInfoDTO" alias="inviteInfoDTO"/>
+		<typeAlias type="dto.view.ShareInfoDTO" alias="shareInfoDTO"/>
+		<typeAlias type="dto.view.CommentInfoDTO" alias="commentInfoDTO"/>
+	</typeAliases>
+	<environments default="development">
+    	<environment id="development">
+        	<transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+            	<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
+                <property name="username" value="2011"/>
+                <property name="password" value="1234"/>
+            </dataSource>
+		</environment>
+	</environments>
+    <mappers>
+    	<mapper resource="mybatis/sqlmap/member.xml"/>
+    	<mapper resource="mybatis/sqlmap/group.xml"/>
+    	<mapper resource="mybatis/sqlmap/group_member.xml"/>
+    	<mapper resource="mybatis/sqlmap/invite.xml"/>
+    	<mapper resource="mybatis/sqlmap/share_joiner.xml"/>
+    	<mapper resource="mybatis/sqlmap/comment.xml"/>
+    	<mapper resource="mybatis/sqlmap/group_info.xml"/>
+    	<mapper resource="mybatis/sqlmap/invite_info.xml"/>
+    	<mapper resource="mybatis/sqlmap/share_info.xml"/>
+    	<mapper resource="mybatis/sqlmap/comment_info.xml"/>
+    	<mapper resource="mybatis/sqlmap/file.xml"/>
+	</mappers>
+</configuration>

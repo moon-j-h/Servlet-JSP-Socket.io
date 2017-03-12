@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="file">
+	<resultMap type="FileDTO" id="fileResult">
+	    <id column="file_code" property="fileCode"/><!-- id태그는 pk임 -->
+	    <result column="host_code" property="hostCode"/>
+	    <result column="file_address" property="fileAddress"/>
+	    <result column="file_name" property="fileName"/>
+	    <result column="file_upload_date" property="fileUploadDate"/> 
+	</resultMap>
+	
+	<sql id="fileColumns">file_code, host_code, file_address, file_name, TO_CHAR(file_upload_date, 'YYYY/MM/DD') file_upload_date</sql>
+	
+	<insert id="insertFile" parameterType="fileDTO">
+		INSERT INTO file_tb	
+		(file_code, host_code, file_address, file_name<if test="fileUploadDate!=null">, file_upload_date</if>)
+		VALUES(#{fileCode}, #{hostCode}, #{fileAddress}, #{fileName}<if test="fileUploadDate!=null">, #{fileUploadDate}</if>)
+	</insert>
+	
+	<update id="updateFileAddressOrName" parameterType="hashMap">
+	    UPDATE file_tb
+	    <set>
+	        <if test="fileAddress!=null">file_address = #{fileAddress},</if>
+	        <if test="fileName!=null">file_name = #{fileName}</if>
+	    </set>
+	    <where>
+	        file_code = #{fileCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="fileResult">
+	    SELECT <include refid="fileColumns"/> FROM file_tb
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT file_code FROM file_tb
+	</select>
+	<select id="selectFile" resultMap="fileResult">
+	    SELECT <include refid="fileColumns"/> FROM file_tb
+	    <where>
+	        file_code = #{fileCode}
+	    </where>
+	</select>
+    <select id="selectFiles" resultMap="fileResult">
+        SELECT <include refid="fileColumns"/> FROM file_tb
+        <where>
+            host_code = #{hostCode}
+        </where>
+    </select>
+    <select id="selectFileCode" parameterType="hashMap" resultType="int">
+        SELECT file_code FROM file_tb
+        <where>
+            host_code = #{hostCode}
+            AND file_address = #{fileAddress}
+            AND file_name = #{fileName}
+        </where>
+    </select>  
+    <select id="selectFileAddress" resultType="string">
+        SELECT file_address FROM file_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </select>
+    <delete id="deleteFile">
+        DELETE FROM file_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </delete>
+    <delete id="deleteFiles">
+        DELETE FROM file_tb
+        <where>
+            host_code = #{hostCode}
+        </where>
+    </delete>
+</mapper>
+

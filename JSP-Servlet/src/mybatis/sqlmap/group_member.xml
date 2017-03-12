@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="groupMember">
+	<resultMap type="GroupMemberDTO" id="gmResult">
+	    <id column="group_member_code" property="groupMemberCode"/><!-- id태그는 pk임 -->
+	    <result column="group_code" property="groupCode"/>
+	    <result column="member_code" property="memberCode"/>
+	</resultMap>
+		
+	<insert id="insertGroupMember" parameterType="groupMemberDTO">
+		INSERT INTO group_member_tb 
+		VALUES(#{groupMemberCode}, #{groupCode}, #{memberCode})
+	</insert>
+	
+	<update id="updateMemberCode" parameterType="hashMap">
+	    UPDATE group_member_tb
+	    <set>
+	        member_code = #{newMemberCode}
+	    </set>
+	    <where>
+			group_code = #{groupCode}
+			AND member_code = #{oldMemberCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="gmResult">
+	    SELECT * FROM group_member_tb
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT group_member_code FROM group_member_tb
+	</select>
+	<select id="selectGroupMember" resultMap="gmResult">
+	    SELECT * FROM group_member_tb
+	    <where>
+			group_member_code = #{groupMemberCode}
+	    </where>
+	</select>
+    <select id="selectGroupMembers" resultMap="gmResult">
+        SELECT * FROM group_member_tb
+        <where>
+			group_code = #{groupCode}
+        </where>
+    </select>
+    <select id="selectGroupMemberCode" parameterType="hashMap" resultType="int">
+        SELECT group_member_code FROM group_member_tb
+        <where>
+			group_code = #{groupCode}
+			AND member_code = #{memberCode}
+        </where>
+    </select>  
+    
+    <delete id="deleteGroupMember1">
+        DELETE FROM group_member_tb
+        <where>
+			group_member_code = #{groupMemberCode}
+        </where>
+    </delete>
+    <delete id="deleteGroupMember2" parameterType="hashMap">
+        DELETE FROM group_member_tb
+        <where>
+            group_code = #{groupCode}
+            AND member_code = #{memberCode}
+        </where>
+    </delete>
+    <delete id="deleteGroupMembersByGroupCode">
+        DELETE FROM group_member_tb
+        <where>
+            group_code = #{groupCode}
+        </where>
+    </delete>
+    <delete id="deleteGroupMembersByMemberCode">
+        DELETE FROM group_member_tb
+        <where>
+            member_code = #{memberCode}
+        </where>
+    </delete>
+</mapper>
+

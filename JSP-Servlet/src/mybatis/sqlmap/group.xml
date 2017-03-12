@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="group">
+	<resultMap type="GroupDTO" id="groupResult">
+	    <id column="group_code" property="groupCode"/><!-- id태그는 pk임 -->
+	    <result column="host_code" property="hostCode"/>
+	    <result column="group_name" property="groupName"/>
+	</resultMap>
+	
+	<insert id="insertGroup" parameterType="groupDTO">
+		INSERT INTO group_tb
+		VALUES
+		(#{groupCode}, #{hostCode}, #{groupName})
+	</insert>
+	
+	<update id="updateGroupName" parameterType="hashMap">
+	    UPDATE group_tb
+	    <set>
+	    	group_name = #{groupName}
+	    </set>
+	    <where>
+	        group_code = #{groupCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="groupResult">
+	    SELECT * FROM group_tb
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT group_code FROM group_tb
+	</select>
+	<select id="selectGroup" resultMap="groupResult">
+	    SELECT * FROM group_tb
+	    <where>
+	        group_code = #{groupCode}
+	    </where>
+	</select>
+    <select id="selectGroups" resultMap="groupResult">
+        SELECT * FROM group_tb
+        <where>
+            host_code = #{hostCode}
+        </where>
+    </select>
+    <select id="selectGroupCode" parameterType="hashMap" resultType="int">
+        SELECT group_code FROM group_tb
+        <where>
+            host_code = #{hostCode}
+            AND group_name = #{groupName}
+        </where>
+    </select>  
+	<select id="selectGroupCodes" resultType="int">
+	    SELECT group_code FROM group_tb
+	    <where>
+	        host_code = #{hostCode}
+	    </where>
+	</select>    
+	
+    <delete id="deleteGroup">
+        DELETE FROM group_tb
+        <where>
+            group_code = #{groupCode}
+        </where>
+    </delete>
+    <delete id="deleteGroups">
+        DELETE FROM group_tb
+        <where>
+            host_code = #{hostCode}
+        </where>
+    </delete>
+</mapper>
+

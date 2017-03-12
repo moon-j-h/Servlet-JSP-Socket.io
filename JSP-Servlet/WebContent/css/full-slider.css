@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+html,
+body {
+    height: 100%;
+}
+
+.carousel,
+.item,
+.active {
+    height: 100%;
+    margin: 0 auto;
+}
+
+.carousel-inner {
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* Background images are set within the HTML using inline CSS, not here */
+
+.fill {
+    height: 100%;
+    width:100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin: 0 auto;
+}

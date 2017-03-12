@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.wrapper{
+	width:40%;
+	margin:0 auto;
+}
+#error-p{
+	font-size: 20px;
+	color:#DC143C;
+}
+body{
+	padding-top:90px;
+}
+#go-register{
+	font-size: 25px;
+	text-align: right;
+	text-decoration: none;
+	color:black;
+}
+#go-register:hover{
+	text-decoration: underline;
+}
+#lo-btn{
+	float:right;
+	width:50%;
+}

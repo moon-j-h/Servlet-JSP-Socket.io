@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+ .user-info{
+	text-transform: none;
+	width:300px;
+	color : #000000;
+}	
+.user-icon{
+	font-size: 35px;
+	margin: 0 auto;
+	color : #000000;
+}
+.user-icon:hover{
+	cursor: pointer;
+}

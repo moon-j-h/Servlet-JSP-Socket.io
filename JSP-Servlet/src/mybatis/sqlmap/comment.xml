@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="comment">
+	<resultMap type="CommentDTO" id="cResult">
+	    <id column="comment_code" property="commentCode"/><!-- id태그는 pk임 -->
+	    <result column="file_code" property="fileCode"/>
+	    <result column="slide_page_number" property="slidePageNumber"/>
+	    <result column="writer_code" property="writerCode"/>
+	    <result column="content" property="content"/>    
+	    <result column="write_date" property="writeDate"/>
+	    <result column="super_comment_code" property="superCommentCode"/> 
+	</resultMap>
+	
+	<sql id="commentColumns">comment_code, file_code, slide_page_number, writer_code, comment_content, TO_CHAR(write_date, 'YYYY/MM/DD') write_date, super_comment_code</sql>
+	
+	<insert id="insertComment" parameterType="commentDTO">
+		INSERT INTO comment_tb	
+		(comment_code, file_code, slide_page_number, writer_code, comment_content<if test="writeDate != null">, write_date</if><if test="superCommentCode != 0">, super_comment_code</if>)
+		VALUES(comment_code.nextVal, #{fileCode}, #{slidePageNumber}, #{writerCode}, #{content}<if test="writeDate != null">, #{writeDate}</if><if test="superCommentCode != 0">, #{superCommentCode}</if>)
+	</insert>
+	
+	<update id="updateContent" parameterType="hashMap">
+	    UPDATE comment_tb
+	    <set>
+	        comment_content = #{content}
+	    </set>
+	    <where>
+	        comment_code = #{commentCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="cResult">
+	    SELECT <include refid="commentColumns"/> FROM comment_tb ORDER BY comment_code
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT comment_code FROM comment_tb ORDER BY comment_code
+	</select>
+	<select id="selectComment" resultMap="cResult">
+	    SELECT <include refid="commentColumns"/> FROM comment_tb
+	    <where>
+	        comment_code = #{commentCode}
+	    </where>
+	     ORDER BY comment_code
+	</select>
+    <select id="selectComments" resultMap="cResult">
+        SELECT <include refid="commentColumns"/> FROM comment_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+         ORDER BY comment_code
+    </select>
+    <select id="selectCommentCode" parameterType="hashMap" resultType="int">
+        SELECT comment_code FROM comment_tb
+        <where>
+            file_code = #{fileCode}
+            AND slide_page_number = #{slidePageNumber}
+            AND writer_code = #{writerCode}
+            AND comment_content = #{content}
+            AND write_date = #{writeDate}
+        </where>
+         ORDER BY comment_code
+    </select>  
+    
+    <delete id="deleteComment">
+        DELETE FROM comment_tb
+        <where>
+            comment_code = #{commentCode}
+        </where>
+    </delete>
+    <delete id="deleteComments">
+        DELETE FROM comment_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </delete>
+</mapper>
+

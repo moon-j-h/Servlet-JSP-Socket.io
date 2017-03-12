@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="shareJoiner">
+	<resultMap type="GroupMemberDTO" id="sjResult">
+	    <id column="share_code" property="shareCode"/><!-- id태그는 pk임 -->
+	    <result column="file_code" property="fileCode"/>
+	    <result column="joiner_code" property="joinerCode"/>
+	</resultMap>
+		
+	<insert id="insertShareJoiner" parameterType="shareJoinerDTO">
+		INSERT INTO share_joiner_tb 
+		VALUES(#{shareCode}, #{fileCode}, #{joinerCode})
+	</insert>
+	
+	<update id="updateJoinerCode" parameterType="hashMap">
+	    UPDATE share_joiner_tb
+	    <set>
+	        joiner_code = #{newJoinerCode}
+	    </set>
+	    <where>
+			file_code = #{fileCode}
+			AND joiner_code = #{oldJoinerCode}
+	    </where>
+	</update>
+	
+	
+	<select id="selectAll" resultMap="sjResult">
+	    SELECT * FROM share_joiner_tb
+	</select>
+	<select id="selectCodes" resultType="int">
+	    SELECT share_code FROM share_joiner_tb
+	</select>
+	<select id="selectShareJoiner1" resultMap="sjResult">
+	    SELECT * FROM share_joiner_tb
+	    <where>
+			share_code = #{shareCode}
+	    </where>
+	</select>
+    <select id="selectShareJoiner2" resultMap="sjResult">
+        SELECT * FROM share_joiner_tb
+        <where>
+			file_code = #{fileCode}
+			AND joiner_code = #{joinerCode}
+        </where>
+    </select>
+    <select id="selectShareJoiners1" resultMap="sjResult">
+        SELECT * FROM share_joiner_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </select>
+    <select id="selectShareJoiners2" resultMap="sjResult">
+        SELECT * FROM share_joiner_tb
+        <where>
+            joiner_code = #{joinerCode}
+        </where>
+    </select>
+    <select id="selectShareCode" parameterType="hashMap" resultType="int">
+        SELECT share_code FROM share_joiner_tb
+        <where>
+			file_code = #{fileCode}
+			AND joiner_code = #{joinerCode}
+        </where>
+    </select>  
+    
+    <delete id="deleteShareJoiner1">
+        DELETE FROM share_joiner_tb
+        <where>
+			share_code = #{shareCode}
+        </where>
+    </delete>
+    <delete id="deleteShareJoiner2" parameterType="hashMap">
+        DELETE FROM share_joiner_tb
+        <where>
+            file_code = #{fileCode}
+            AND joiner_code = #{joinerCode}
+        </where>
+    </delete>
+    <delete id="deleteShareJoinersByFileCode">
+        DELETE FROM share_joiner_tb
+        <where>
+            file_code = #{fileCode}
+        </where>
+    </delete>
+    <delete id="deleteShareJoinersByJoinerCode">
+        DELETE FROM share_joiner_tb
+        <where>
+            joiner_code = #{joinerCode}
+        </where>
+    </delete>
+</mapper>
+

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 작성자 : 문정현 -->
+<mapper namespace="member">
+	<resultMap type="MemberDTO" id="MemberDTOResult">
+	    <id column="member_code" property="memberCode"/><!-- id태그는 pk임 -->
+	    <result column="member_id" property="memberId"/>
+	    <result column="member_password" property="memberPw"/>
+	    <result column="member_name" property="memberName"/> 
+	    <result column="member_state" property="memberState"/>
+	</resultMap>
+	
+	  <insert id="insertMember" parameterType="memberDTO">
+          insert into member_tb(member_code, member_id, member_password, member_name) values (member_code.nextVal, #{memberId}, #{memberPw}, #{memberName})
+      </insert>
+      
+	  <update id="updatePassword" parameterType="hashMap">
+	      update member_tb
+	      set member_password = #{newPw}
+	      <where>member_code = #{memberCode}</where>
+	  </update>
+	  
+      <select id="selectMember" resultMap="MemberDTOResult">    
+          select * from member_tb<where>member_code = #{memberCode}</where>  
+      </select> 
+      <select id="selectAll" resultMap="MemberDTOResult">
+          select * from member_tb
+      </select>
+      <select id="selectCodes" resultType="int">
+          select member_code from member_tb
+      </select>
+      <select id="selectPassword" resultType="string">
+          select member_password from member_tb<where>member_id = #{memberId}</where>
+      </select>
+      <select id="selectMemberCode" resultType="int">
+          select member_code from member_tb<where>member_id = #{memberId}</where>
+      </select>
+      <select id="selectMemberName" resultType="string">
+          select member_name from member_tb<where>member_code = #{memberCode}</where>
+      </select>
+      <delete id="deleteMember">
+          delete from member_tb <where>member_code = #{memberCode}</where>
+      </delete>
+      
+      <!-- 새롭게 추가됨 -->
+      <update id="updateMemberState">
+          UPDATE member_tb
+          <set>
+              member_state = 'INACTIVE'
+          </set>
+          <where>
+              member_code = #{memberCode}
+          </where>
+      </update>
+      
+      <select id="selectActiveMembers" resultMap="MemberDTOResult">
+          SELECT * FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+          </where>
+      </select>
+      <select id="selectActiveMemberPassword" resultType="string">
+          SELECT member_password FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+              AND member_id = #{memberID}
+          </where>
+      </select>
+      <select id="selectActiveMember" resultMap="MemberDTOResult">
+          SELECT * FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+              AND member_code = #{memberCode}
+          </where>
+      </select>
+      <select id="selectActiveMember2" resultMap="MemberDTOResult">
+          SELECT * FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+              AND member_id = #{memberId}
+              AND member_password = #{memberPassword}
+          </where>
+      </select>
+      <select id="selectActiveMemberCode" resultType="int">
+          SELECT member_code FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+              AND member_id = #{memberId}
+          </where>
+      </select>
+      <select id="selectActiveMemberName" resultType = "string">
+          SELECT member_name FROM member_tb
+          <where>
+              member_state LIKE 'ACTIVE'
+              AND member_code = #{memberCode}
+          </where>
+      </select>
+      <select id="selectMemberState" resultType="string">
+          SELECT member_state FROM member_tb
+          <where>
+              member_code = #{memberCode}
+          </where>
+      </select>
+</mapper>
+
